@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import './quote.css';
+const { createRoot } = ReactDOM;
 
 function QuoteCard({ quote, author }) {
   const [liked, setLiked] = useState(false);
