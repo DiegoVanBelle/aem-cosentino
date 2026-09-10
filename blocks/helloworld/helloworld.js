@@ -56,5 +56,5 @@ export default function decorate(block) {
   //root.render(
    // <span>test</span>
  // );
- block.append('test');
+ block.append('hello world');
 }

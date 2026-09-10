@@ -216,12 +216,13 @@
     ]
   },
    {
-    "id": "hello-world",
+    "id": "react",
     "fields": [
       {
-        "component": "text",
+        "component": "react",
         "name": "title",
-        "label": "Title"
+        "label": "Title",
+        "value": ""
       }
      ]
   }

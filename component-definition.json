@@ -57,14 +57,14 @@
           }
         },
         {
-          "title": "Hello world",
-          "id": "hello-world",
+          "title": "React",
+          "id": "react",
           "plugins": {
             "xwalk": {
               "page": {
         "resourceType": "core/franklin/components/block/v1/block",
-                 "name": "helloworld",
-          "model": "hello-world",
+                 "name": "React",
+          "model": "react",
           "text": ""
               }
             }
