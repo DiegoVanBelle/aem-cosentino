@@ -1,59 +1,86 @@
-.block.quote {
-    background-color: #ccc;
-    padding: 0 0 24px;
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
+.counter-card {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
 }
 
-.block.quote blockquote {
-    margin: 16px;
-    text-indent: 0;
+.counter-card__content {
+  padding: 2rem;
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: center;
 }
 
-.block.quote > div:last-child > div {
-    margin: 0 16px;
-    font-size: small;
-    font-style: italic;
-    position: relative;
+.counter-card__label {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.block.quote > div:last-child > div::after {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    height: 5px;
-    width: 30px;
-    background-color: darkgray;
-}.block.quote {
-    background-color: #ccc;
-    padding: 0 0 24px;
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
+.counter-card__title {
+  margin: 0 0 0.75rem;
+  color: #111827;
+  font-size: 2rem;
+  line-height: 1.2;
 }
 
-.block.quote blockquote {
-    margin: 16px;
-    text-indent: 0;
+.counter-card__description {
+  margin: 0 auto 1.5rem;
+  max-width: 400px;
+  color: #6b7280;
+  line-height: 1.6;
 }
 
-.block.quote > div:last-child > div {
-    margin: 0 16px;
-    font-size: small;
-    font-style: italic;
-    position: relative;
+.counter-card__counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.block.quote > div:last-child > div::after {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    height: 5px;
-    width: 30px;
-    background-color: darkgray;
+.counter-card__button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.counter-card__button:hover {
+  background: #4338ca;
+  transform: scale(1.05);
+}
+
+.counter-card__value {
+  min-width: 50px;
+  color: #111827;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.counter-card__reset {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+}
+
+.counter-card__reset:hover {
+  background: #f9fafb;
 }
