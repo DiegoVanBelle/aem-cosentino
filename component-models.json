@@ -219,7 +219,7 @@
     "id": "react",
     "fields": [
       {
-        "component": "react",
+        "component": "richtext",
         "name": "title",
         "label": "Title",
         "value": ""
