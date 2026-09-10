@@ -55,6 +55,18 @@
               }
             }
           }
+        },
+        {
+          "title": "Hello world",
+          "id": "hello-world",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/text/v1/text",
+                "template": {}
+              }
+            }
+          }
         }
       ]
     },
