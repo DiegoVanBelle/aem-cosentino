@@ -51,11 +51,9 @@ function CounterCard({ title, description }) {
 
 export default function decorate(block) {
   const root = createRoot(block);
+  console.log(block);
 
   root.render(
-    <CounterCard
-      title="Hello World"
-      description="This is a React component rendered inside your block."
-    />
+    <span>test</span>
   );
 }
