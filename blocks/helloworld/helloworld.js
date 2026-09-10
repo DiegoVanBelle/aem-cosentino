@@ -1,7 +1,9 @@
 import React from "react";
 export default async function decorate(block) {
     console.log(block);
-    return (<>
+    
+    
+block.append(renderToReadableStrem(<>
         <span>Hello world</span>
-    </>)
+    </>))
 }
