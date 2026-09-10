@@ -1,51 +1,34 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import './my-component.css';
+import './quote.css';
 
-function CounterCard({ title, description }) {
-  const [count, setCount] = useState(0);
+function QuoteCard({ quote, author }) {
+  const [liked, setLiked] = useState(false);
 
-  return (
-    <div className="counter-card">
-      <div className="counter-card__content">
-        <span className="counter-card__label">React Component</span>
+  return React.createElement(
+    'div',
+    { className: 'quote-card' },
 
-        <h2 className="counter-card__title">
-          {title}
-        </h2>
+    React.createElement(
+      'div',
+      { className: 'quote-card__quote' },
+      `"${quote}"`
+    ),
 
-        <p className="counter-card__description">
-          {description}
-        </p>
+    React.createElement(
+      'div',
+      { className: 'quote-card__author' },
+      `— ${author}`
+    ),
 
-        <div className="counter-card__counter">
-          <button
-            className="counter-card__button"
-            onClick={() => setCount(count - 1)}
-          >
-            −
-          </button>
-
-          <span className="counter-card__value">
-            {count}
-          </span>
-
-          <button
-            className="counter-card__button"
-            onClick={() => setCount(count + 1)}
-          >
-            +
-          </button>
-        </div>
-
-        <button
-          className="counter-card__reset"
-          onClick={() => setCount(0)}
-        >
-          Reset
-        </button>
-      </div>
-    </div>
+    React.createElement(
+      'button',
+      {
+        className: 'quote-card__button',
+        onClick: () => setLiked(!liked)
+      },
+      liked ? '♥ Liked' : '♡ Like'
+    )
   );
 }
 
@@ -53,9 +36,9 @@ export default function decorate(block) {
   const root = createRoot(block);
 
   root.render(
-    <CounterCard
-      title="Hello World"
-      description="This is a React component rendered inside your block."
-    />
+    React.createElement(QuoteCard, {
+      quote: 'The only way to do great work is to love what you do.',
+      author: 'Steve Jobs'
+    })
   );
 }
