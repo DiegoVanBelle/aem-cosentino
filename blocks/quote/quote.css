@@ -1,3 +1,5 @@
+/* Legacy BEM selectors retained for existing quote content. */
+/* stylelint-disable selector-class-pattern */
 .quote-card {
   max-width: 600px;
   margin: 2rem auto;

@@ -10,6 +10,7 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+import { withReactIslands } from './react-support.js';
 
 /**
  * Moves all the attributes from a given elmenet to another given element.
@@ -115,11 +116,13 @@ export function decorateButtons(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
-  decorateIcons(main);
-  buildAutoBlocks(main);
-  decorateSections(main);
-  decorateBlocks(main);
-  decorateButtons(main);
+  withReactIslands(main, () => {
+    decorateIcons(main);
+    buildAutoBlocks(main);
+    decorateSections(main);
+    decorateBlocks(main);
+    decorateButtons(main);
+  });
 }
 
 /**

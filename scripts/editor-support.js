@@ -7,6 +7,7 @@ import {
   loadScript,
   loadSections,
 } from './aem.js';
+import { withReactIslands } from './react-support.js';
 import { decorateRichtext } from './editor-support-rte.js';
 import { decorateButtons, decorateMain } from './scripts.js';
 
@@ -57,9 +58,11 @@ async function applyChanges(event) {
       if (newBlock) {
         newBlock.style.display = 'none';
         block.insertAdjacentElement('afterend', newBlock);
-        decorateButtons(newBlock);
-        decorateIcons(newBlock);
-        decorateBlock(newBlock);
+        withReactIslands(newBlock, () => {
+          decorateButtons(newBlock);
+          decorateIcons(newBlock);
+          decorateBlock(newBlock);
+        });
         decorateRichtext(newBlock);
         await loadBlock(newBlock);
         block.remove();
@@ -75,18 +78,24 @@ async function applyChanges(event) {
           const [newSection] = newElements;
           newSection.style.display = 'none';
           element.insertAdjacentElement('afterend', newSection);
-          decorateButtons(newSection);
-          decorateIcons(newSection);
+          withReactIslands(newSection, () => {
+            decorateButtons(newSection);
+            decorateIcons(newSection);
+          });
           decorateRichtext(newSection);
-          decorateSections(parentElement);
-          decorateBlocks(parentElement);
+          withReactIslands(parentElement, () => {
+            decorateSections(parentElement);
+            decorateBlocks(parentElement);
+          });
           await loadSections(parentElement);
           element.remove();
           newSection.style.display = null;
         } else {
           element.replaceWith(...newElements);
-          decorateButtons(parentElement);
-          decorateIcons(parentElement);
+          withReactIslands(parentElement, () => {
+            decorateButtons(parentElement);
+            decorateIcons(parentElement);
+          });
           decorateRichtext(parentElement);
         }
         return true;

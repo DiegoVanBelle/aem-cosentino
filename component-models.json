@@ -215,7 +215,45 @@
       }
     ]
   },
-   {
+  {
+    "id": "quote",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quote",
+        "value": "",
+        "label": "Quote",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "author",
+        "label": "Author",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "react-teaser",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description",
+        "value": ""
+      }
+    ]
+  },
+  {
     "id": "react",
     "fields": [
       {
@@ -223,28 +261,8 @@
         "name": "title",
         "label": "Title",
         "value": "",
-                "valueType": "string"
-
+        "valueType": "string"
       }
-     ]
-  },
-  {
-  "id": "quote",
-  "fields": [
-     {
-       "component": "richtext",
-       "name": "quote",
-       "value": "",
-       "label": "Quote",
-       "valueType": "string"
-     },
-     {
-       "component": "text",
-       "valueType": "string",
-       "name": "author",
-       "label": "Author",
-       "value": ""
-     }
-   ]
-}
+    ]
+  }
 ]

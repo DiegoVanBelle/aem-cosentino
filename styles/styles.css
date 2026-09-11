@@ -71,7 +71,7 @@
 }
 
 body {
-  display: none;
+  display: block;
   margin: 0;
   background-color: var(--background-color);
   color: var(--text-color);

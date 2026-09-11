@@ -2,11 +2,13 @@
 /* eslint-disable no-cond-assign */
 /* eslint-disable import/prefer-default-export */
 
+import { withReactIslands } from './react-support.js';
+
 // group editable texts in single wrappers if applicable.
 // this script should execute after script.js but before the the universal editor cors script
 // and any block being loaded
 
-export function decorateRichtext(container = document) {
+function decorateRichtextContent(container) {
   function deleteInstrumentation(element) {
     delete element.dataset.richtextResource;
     delete element.dataset.richtextProp;
@@ -64,4 +66,8 @@ export function decorateRichtext(container = document) {
       group.append(element, ...siblings);
     }
   }
+}
+
+export function decorateRichtext(container = document) {
+  withReactIslands(container, () => decorateRichtextContent(container));
 }
