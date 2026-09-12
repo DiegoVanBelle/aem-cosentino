@@ -14,3 +14,12 @@ test('SSR renders authored text in the initial document preserving root instrume
   assert.match(html, /<div class="quote"><div>Vanilla<\/div><\/div>/);
   assert.match(html, /class="appear"/);
 });
+
+test('SSR renders the authored React button in the initial document', async () => {
+  const { transformHTML } = await import('../react/dist/server.mjs');
+  const html = transformHTML('<!doctype html><html><body><main><div class="react-button" data-aue-resource="urn:button">'
+    + '<div><div>Request a sample</div></div></div></main></body></html>');
+  assert.match(html, /<button[^>]*>Request a sample<\/button>/);
+  assert.match(html, /data-react-ssr="react-button"/);
+  assert.match(html, /data-aue-resource="urn:button"/);
+});

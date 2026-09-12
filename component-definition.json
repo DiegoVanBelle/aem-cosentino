@@ -175,6 +175,21 @@
           }
         },
         {
+          "title": "React Button",
+          "id": "react-button",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "React Button",
+                  "model": "react-button"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "React Teaser",
           "id": "react-teaser",
           "plugins": {

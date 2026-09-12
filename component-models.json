@@ -235,6 +235,18 @@
     ]
   },
   {
+    "id": "react-button",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Label",
+        "value": "Button"
+      }
+    ]
+  },
+  {
     "id": "react-teaser",
     "fields": [
       {

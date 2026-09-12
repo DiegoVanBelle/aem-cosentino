@@ -25,4 +25,17 @@ test('client hydrates identical SSR and renders replacement raw blocks', async (
   mount(raw);
   await new Promise((r) => setTimeout(r, 20));
   assert.equal(raw.querySelector('h2').textContent, 'Updated');
+
+  const rawButton = document.createElement('div');
+  rawButton.className = 'react-button';
+  rawButton.innerHTML = '<div><div>Choose me</div></div>';
+  document.body.append(rawButton);
+  mount(rawButton);
+  await new Promise((r) => setTimeout(r, 20));
+  const button = rawButton.querySelector('button');
+  assert.equal(button.textContent.trim(), 'Choose me');
+  assert.equal(button.getAttribute('aria-pressed'), 'false');
+  button.click();
+  await new Promise((r) => setTimeout(r, 20));
+  assert.equal(button.getAttribute('aria-pressed'), 'true');
 });

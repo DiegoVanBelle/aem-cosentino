@@ -5,9 +5,13 @@ import { readFile } from 'node:fs/promises';
 const files = [
   'scripts/aem.js', 'scripts/scripts.js', 'scripts/react-support.js', 'scripts/react-islands.js', 'scripts/delayed.js',
   'styles/styles.css', 'styles/lazy-styles.css', 'styles/fonts.css',
+  'fonts/roboto-bold.woff2', 'fonts/roboto-condensed-bold.woff2',
+  'fonts/roboto-medium.woff2', 'fonts/roboto-regular.woff2',
   'blocks/react-teaser/react-teaser.js', 'blocks/react-teaser/react-teaser.css',
-  'blocks/quote/quote.js', 'blocks/quote/quote.css',
-  'blocks/header/header.js', 'blocks/header/header.css', 'blocks/footer/footer.js', 'blocks/footer/footer.css',
+  'blocks/react-button/react-button.js', 'blocks/react-button/react-button.css',
+  'blocks/quote/quote.js', 'blocks/quote/quote.css', 'blocks/fragment/fragment.js',
+  'blocks/fragment/fragment.css', 'blocks/header/header.js', 'blocks/header/header.css',
+  'blocks/footer/footer.js', 'blocks/footer/footer.css',
 ];
 export function createFixture() {
   return createServer(async (req, res) => {

@@ -11,9 +11,28 @@ export function Teaser({ title, description }) {
   );
 }
 
-export const registry = { 'react-teaser': Teaser };
-
-export function readProps(block) {
-  const rows = [...block.children];
-  return { title: rows[0]?.textContent.trim() || 'Discover more', description: rows[1]?.textContent.trim() || '' };
+export function Button({ label }) {
+  const [pressed, setPressed] = useState(false);
+  return (
+    <button type="button" aria-pressed={pressed} onClick={() => setPressed(!pressed)}>
+      {label}
+    </button>
+  );
 }
+
+const readTeaserProps = (block) => {
+  const rows = [...block.children];
+  return {
+    title: rows[0]?.textContent.trim() || 'Discover more',
+    description: rows[1]?.textContent.trim() || '',
+  };
+};
+
+const readButtonProps = (block) => ({
+  label: block.firstElementChild?.textContent.trim() || 'Button',
+});
+
+export const registry = {
+  'react-teaser': { Component: Teaser, readProps: readTeaserProps },
+  'react-button': { Component: Button, readProps: readButtonProps },
+};

@@ -1,5 +1,5 @@
 // Keep this selector aligned with react/components.jsx's explicit registry.
-export const REACT_BLOCKS = '.react-teaser';
+export const REACT_BLOCKS = '.react-teaser, .react-button';
 
 /** Run synchronous vanilla decorators without exposing React-owned children. */
 export function withReactIslands(container, decorate) {

@@ -1,13 +1,13 @@
 import { renderToString } from 'react-dom/server';
 import { parseHTML } from 'linkedom';
-import { registry, readProps } from './components.jsx';
+import { registry } from './components.jsx';
 
 export function transformHTML(html) {
   const { document } = parseHTML(html);
   document.querySelectorAll('meta[http-equiv]').forEach((meta) => {
     if (meta.getAttribute('http-equiv').toLowerCase() === 'content-security-policy') meta.remove();
   });
-  Object.entries(registry).forEach(([name, Component]) => {
+  Object.entries(registry).forEach(([name, { Component, readProps }]) => {
     document.querySelectorAll(`main .${name}`).forEach((block) => {
       if (block.hasAttribute('data-react-ssr')) return;
       const props = readProps(block);
