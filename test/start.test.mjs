@@ -17,6 +17,6 @@ test('demo command starts a real gateway with server-rendered HTML', async (t) =
     });
   });
   const response = await fetch(url);
-  assert.match(await response.text(), /<h2>Surfaces for everyday living<\/h2>/);
+  assert.match(await response.text(), /<h2[^>]*>Surfaces for everyday living<\/h2>/);
   assert.equal((await fetch(`${url}/scripts/react-islands.js`)).status, 200);
 });

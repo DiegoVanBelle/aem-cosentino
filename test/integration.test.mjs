@@ -21,8 +21,10 @@ test('island guard protects authored and SSR children from vanilla mutation', as
 });
 
 test('React button focus ring uses a contrasting page-background color', () => {
-  const css = readFileSync(new URL('../blocks/react-button/react-button.css', import.meta.url), 'utf8');
-  assert.match(css, /:focus-visible[\s\S]*outline:\s*3px solid var\(--link-hover-color\)/);
+  const css = readFileSync(new URL('../styles/react-tailwind.css', import.meta.url), 'utf8');
+  assert.match(css, /:focus-visible\{[^}]*outline-width:3px/);
+  assert.match(css, /:focus-visible\{outline-color:var\(--tw-color-stone-900\)/);
+  assert.match(css, /:focus-visible\{outline-offset:4px/);
 });
 
 test('SSR replaces incompatible nonce metadata; direct pages are visible without JS', async () => {

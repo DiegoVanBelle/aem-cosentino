@@ -7,7 +7,7 @@ test('SSR renders authored text in the initial document preserving root instrume
   const { transformHTML } = await import('../react/dist/server.mjs');
   const html = transformHTML('<!doctype html><html><head></head><body><main><div><div class="react-teaser accent" data-aue-resource="urn:test">'
     + '<div><div>Hello &amp; welcome</div></div><div><div>Details</div></div></div><div class="quote"><div>Vanilla</div></div></div></main></body></html>');
-  assert.match(html, /<h2>Hello &amp; welcome<\/h2>/);
+  assert.match(html, /<h2[^>]*>Hello &amp; welcome<\/h2>/);
   assert.match(html, /class="react-teaser accent"/);
   assert.match(html, /data-aue-resource="urn:test"/);
   assert.match(html, /data-react-props=/);

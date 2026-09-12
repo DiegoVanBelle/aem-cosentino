@@ -16,6 +16,12 @@ export function transformHTML(html) {
       block.innerHTML = renderToString(<Component {...props} />);
     });
   });
+  if (!document.head.querySelector('link[href="/styles/react-tailwind.css"]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.setAttribute('rel', 'stylesheet');
+    stylesheet.setAttribute('href', '/styles/react-tailwind.css');
+    document.head.append(stylesheet);
+  }
   document.body.classList.add('appear');
   return document.toString();
 }

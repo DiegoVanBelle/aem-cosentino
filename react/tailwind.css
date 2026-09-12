@@ -1,0 +1,12 @@
+/* No Preflight: preserve the vanilla AEM document. Utilities are deliberately
+ * unlayered so their class specificity wins over unlayered AEM element rules. */
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "tailwindcss/utilities.css" prefix(tw) source(none);
+
+@source "./components/**/*.jsx";
+
+@theme {
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+}

@@ -14,4 +14,4 @@ jobs:
     - run: npm run build
     - run: npm test
     - run: npm run lint
-    - run: git diff --exit-code -- scripts/react-islands.js component-definition.json component-models.json component-filters.json
+    - run: git diff --exit-code -- scripts/react-islands.js styles/react-tailwind.css component-definition.json component-models.json component-filters.json

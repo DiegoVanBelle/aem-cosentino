@@ -36,7 +36,7 @@ Useful commands:
 | Command | Purpose |
 | --- | --- |
 | `npm run build:json` | Regenerate the aggregate Universal Editor component JSON files. |
-| `npm run build:react` | Build the server renderer and browser hydration bundle. |
+| `npm run build:react` | Build Tailwind CSS, the server renderer, and browser hydration bundle. |
 | `npm run build` | Build both the component JSON and React bundles. |
 | `npm test` | Build React and run the SSR, gateway, island, and demo tests. |
 | `npm run lint` | Lint JavaScript, JSX, JSON, and CSS. |
@@ -91,6 +91,86 @@ npx -y @adobe/aem-cli up --no-open --forward-browser-logs
 ```
 
 This serves the repository directly at `http://localhost:3000`. Because that request does not pass through the SSR gateway, React blocks use the client-rendering fallback. Use `npm run demo:ssr` or `npm run start:ssr` when testing initial server-rendered HTML.
+
+## Tailwind styling for React islands
+
+Tailwind CSS v4 is compiled locally using `tailwindcss` and `@tailwindcss/cli`.
+There is no CDN, browser compiler, runtime CSS injection, or global reset.
+
+```sh
+npm run build:css  # Minify react/tailwind.css into styles/react-tailwind.css
+npm run watch:css  # Recompile CSS when component utility classes change
+```
+
+`build:react` builds CSS before both JSX bundles, so `build`, `test`, and
+`demo:ssr` always include current styles. The CSS watcher watches only CSS/class
+changes, not the React bundle: run `npm run build:react` after JSX changes to
+update rendering too. Build before starting the standard AEM CLI or SSR gateway;
+restart the gateway after rebuilding its server bundle.
+
+### Stylesheet delivery and cascade
+
+- `head.html` includes `/styles/react-tailwind.css` as a normal blocking stylesheet
+  after the AEM stylesheet. It is already available for direct CSR pages and
+  newly inserted Universal Editor islands.
+- The SSR renderer also ensures that link exists, even when upstream HTML lacks
+  the shared head, without adding duplicates. Initial SSR content is styled with
+  JavaScript disabled; actions still require JavaScript.
+- The gateway serves this exact generated asset from its own build (including
+  GET, HEAD, and cache-busting query strings), just like the hydration bundle.
+  The offline fixture explicitly allows it. Direct AEM delivery uses the checked-in
+  `styles/react-tailwind.css`; deploy CSS and both React bundles from one revision.
+- `react/tailwind.css` imports only theme and utilities, **not Preflight**. Vanilla
+  AEM headings, images, buttons, and quote blocks are not reset. Tailwind's theme
+  variables and property initializers are `--tw-*` namespaced, not visual resets.
+- Utilities deliberately remain **unlayered**: otherwise unlayered AEM element
+  rules would outrank layered Tailwind utilities regardless of specificity.
+  Prefixed class selectors beat the existing element styles without `!important`.
+  The old React block visual rules were removed to avoid higher-specificity
+  conflicts and a styling shift when AEM lazily loads those block stylesheets.
+  Keep those files for scoped layout overrides, not duplicate utility styling.
+
+### Authoring utilities
+
+Put complete, literal `tw:` utility names in `react/components/**/*.jsx`:
+
+```jsx
+<article className="tw:rounded-2xl tw:bg-stone-100 tw:p-6 tw:sm:p-10">
+  <h2 className="tw:m-0 tw:text-3xl tw:font-bold">Surfaces</h2>
+</article>
+```
+
+The prefix comes first, including variants: `tw:hover:bg-stone-700` and
+`tw:focus-visible:outline-3`. Scan scope is explicit (`source(none)` plus
+`@source`); tests, authored content, generated bundles, and vanilla blocks do not
+inflate the stylesheet. Add an `@source` entry if components move outside that
+folder. Never construct partial class names such as `tw:bg-${color}-900`;
+map choices to complete literal classes. This also applies to conditional UI.
+
+Without Preflight, specify borders (`tw:border-solid` plus width/color), sizing
+(`tw:box-border`), margins, typography, and button states explicitly where needed.
+Keep native buttons, accessible names, ARIA state, visible keyboard focus, and
+identical initial SSR/client classes. Breakpoints follow AEM: `sm` 600px, `md`
+900px, `lg` 1200px. Both reference components use stone colors, rounded edges,
+explicit focus outlines, and responsive spacing; the Button's pressed state has
+contrasting background and text colors.
+
+Commit the generated stylesheet alongside `scripts/react-islands.js`. CI checks
+both for build drift. Stylelint validates the Tailwind input with narrow directive
+exceptions and skips only the generated CSS; do not edit generated CSS by hand.
+
+### Browser compatibility
+
+Tailwind v4 requires modern browsers: Safari 16.4+, Chrome 111+, and Firefox 128+.
+It uses features such as `@property` and `color-mix()`; this is not a legacy-browser
+polyfill. Validate your supported browser matrix before deployment. Vanilla blocks
+retain their existing CSS behavior; choosing older-browser support for React
+islands would require a different Tailwind version/build strategy.
+
+References: [CLI installation](https://tailwindcss.com/docs/installation/tailwind-cli),
+[omitting Preflight and prefixing imports](https://tailwindcss.com/docs/preflight),
+[source detection](https://tailwindcss.com/docs/detecting-classes-in-source-files),
+[browser compatibility](https://tailwindcss.com/docs/compatibility).
 
 ## Architecture
 
@@ -381,8 +461,9 @@ npm run lint
 - `component-filters.json`
 - `react/dist/server.mjs`
 - `scripts/react-islands.js`
+- `styles/react-tailwind.css`
 
-Review and commit the three aggregate component JSON files and `scripts/react-islands.js`. `react/dist/` stays ignored because it is rebuilt before the gateway starts or during deployment.
+Review and commit the three aggregate component JSON files, `scripts/react-islands.js`, and `styles/react-tailwind.css`. `react/dist/` stays ignored because it is rebuilt before the gateway starts or during deployment.
 
 ### 11. Test both delivery paths
 

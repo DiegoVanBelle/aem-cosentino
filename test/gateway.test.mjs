@@ -23,12 +23,12 @@ test('gateway transforms full HTML, proxies assets and rejects unsafe requests',
   const url = await listen(gateway);
   t.after(() => { gateway.closeAllConnections(); gateway.close(); upstream.closeAllConnections(); upstream.close(); });
   const page = await fetch(url);
-  assert.match(await page.text(), /<h2>Server title<\/h2>/);
+  assert.match(await page.text(), /<h2[^>]*>Server title<\/h2>/);
   assert.equal(page.headers.get('cache-control'), 'no-store');
   assert.equal(page.headers.get('etag'), null);
   assert.equal(page.headers.get('content-security-policy'), "script-src 'self'; base-uri 'self'; object-src 'none'");
   assert.equal(await (await fetch(`${url}/asset.svg`)).text(), '<svg/>');
-  assert.doesNotMatch(await (await fetch(`${url}/x.plain.html`)).text(), /<h2>/);
+  assert.doesNotMatch(await (await fetch(`${url}/x.plain.html`)).text(), /<h2[^>]*>/);
   assert.equal((await fetch(`${url}/redirect`, { redirect: 'manual' })).status, 502);
   assert.equal((await fetch(`${url}/large`)).status, 502);
   const before = hits;

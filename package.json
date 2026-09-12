@@ -5,7 +5,7 @@
   "description": "Starter project for Adobe Helix",
   "scripts": {
     "lint:js": "eslint . --ext .json,.js,.mjs,.jsx",
-    "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
+    "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\" \"react/tailwind.css\"",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
     "build:json": "npm-run-all -p build:json:models build:json:definitions build:json:filters",
@@ -13,7 +13,9 @@
     "build:json:definitions": "merge-json-cli -i \"models/_component-definition.json\" -o \"component-definition.json\"",
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
     "prepare": "husky",
-    "build:react": "node react/build.mjs",
+    "build:css": "tailwindcss -i react/tailwind.css -o styles/react-tailwind.css --minify",
+    "watch:css": "tailwindcss -i react/tailwind.css -o styles/react-tailwind.css --watch",
+    "build:react": "npm run build:css && node react/build.mjs",
     "build": "npm run build:json && npm run build:react",
     "test": "npm run build:react && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test test/*.test.mjs",
     "start:ssr": "node react/start.mjs",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.28.6",
     "@babel/plugin-syntax-jsx": "^7.29.7",
+    "@tailwindcss/cli": "^4.3.3",
     "esbuild": "^0.28.2",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
@@ -42,7 +45,8 @@
     "merge-json-cli": "1.0.4",
     "npm-run-all": "4.1.5",
     "stylelint": "17.12.0",
-    "stylelint-config-standard": "40.0.0"
+    "stylelint-config-standard": "40.0.0",
+    "tailwindcss": "^4.3.3"
   },
   "dependencies": {
     "linkedom": "^0.18.13",

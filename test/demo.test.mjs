@@ -12,6 +12,7 @@ test('offline fixture serves only an explicit public manifest', async (t) => {
   const html = await (await fetch(url)).text();
   assert.match(html, /Content-Security-Policy/);
   assert.match(html, /react-teaser/);
+  assert.match(html, /<link rel="icon" href="data:,">/);
   assert.match(await (await fetch(`${url}/scripts/scripts.js`)).text(), /decorateMain/);
   assert.equal((await fetch(`${url}/package.json`)).status, 404);
   assert.equal((await fetch(`${url}/react/gateway.mjs`)).status, 404);

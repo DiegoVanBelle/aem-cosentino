@@ -33,9 +33,13 @@ export function createGateway({
     const timer = setTimeout(() => controller.abort(), timeout);
     res.on('close', () => controller.abort());
     try {
-      // Only this exact generated public bundle is read from disk. Never serve the repo.
+      // Only exact generated public assets are read from disk. Never serve the repo.
       if (target.pathname === '/scripts/react-islands.js') {
         send(200, await readFile(new URL('../scripts/react-islands.js', import.meta.url)), 'text/javascript; charset=utf-8');
+        return;
+      }
+      if (target.pathname === '/styles/react-tailwind.css') {
+        send(200, await readFile(new URL('../styles/react-tailwind.css', import.meta.url)), 'text/css; charset=utf-8');
         return;
       }
       const headers = { 'accept-encoding': 'identity' };

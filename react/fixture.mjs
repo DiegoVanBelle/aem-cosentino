@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 // Exact manifest, not a generic static file server. Demo only, loopback-bound.
 const files = [
   'scripts/aem.js', 'scripts/scripts.js', 'scripts/react-support.js', 'scripts/react-islands.js', 'scripts/delayed.js',
-  'styles/styles.css', 'styles/lazy-styles.css', 'styles/fonts.css',
+  'styles/styles.css', 'styles/react-tailwind.css', 'styles/lazy-styles.css', 'styles/fonts.css',
   'fonts/roboto-bold.woff2', 'fonts/roboto-condensed-bold.woff2',
   'fonts/roboto-medium.woff2', 'fonts/roboto-regular.woff2',
   'blocks/react-teaser/react-teaser.js', 'blocks/react-teaser/react-teaser.css',
