@@ -6,7 +6,10 @@ import { parseHTML } from 'linkedom';
 test('client hydrates identical SSR and renders replacement raw blocks', async () => {
   assert.ok(existsSync(new URL('../scripts/react-islands.js', import.meta.url)), 'client bundle exists');
   const { transformHTML } = await import('../react/dist/server.mjs');
-  const { window } = parseHTML(transformHTML('<!doctype html><html><head></head><body><main><div class="react-teaser"><div><div>Hydrated</div></div></div></main></body></html>'));
+  const { window } = parseHTML(transformHTML('<!doctype html><html><head></head><body><main>'
+    + '<div class="react-teaser"><div><div>Hydrated</div></div></div>'
+    + '<div class="react-button"><div><div>SSR button</div></div></div>'
+    + '</main></body></html>'));
   globalThis.window = window;
   globalThis.document = window.document;
   const { mount } = await import('../scripts/react-islands.js');
@@ -18,6 +21,16 @@ test('client hydrates identical SSR and renders replacement raw blocks', async (
   block.querySelector('button').click();
   await new Promise((r) => setTimeout(r, 20));
   assert.equal(block.querySelector('button').getAttribute('aria-expanded'), 'true');
+
+  const ssrButtonRoot = document.querySelector('.react-button');
+  const ssrButton = ssrButtonRoot.querySelector('button');
+  mount(ssrButtonRoot);
+  await new Promise((r) => setTimeout(r, 20));
+  assert.equal(ssrButtonRoot.querySelector('button'), ssrButton);
+  ssrButton.click();
+  await new Promise((r) => setTimeout(r, 20));
+  assert.equal(ssrButton.getAttribute('aria-pressed'), 'true');
+
   const raw = document.createElement('div');
   raw.className = 'react-teaser';
   raw.innerHTML = '<div><div>Updated</div></div>';

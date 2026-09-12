@@ -96,7 +96,8 @@ This serves the repository directly at `http://localhost:3000`. Because that req
 
 ```text
                        build time
- react/components.jsx ─────────────┬─> react/dist/server.mjs
+ react/components/*.jsx ─┐
+ react/components.jsx ───┴─────────┬─> react/dist/server.mjs
           │                        └─> scripts/react-islands.js
           │
           │              request time
@@ -140,7 +141,10 @@ React owns only the children of registered React block roots. AEM continues to o
 
 ```text
 react/
-├── components.jsx       # Components, registry, and authored-markup-to-props mapping
+├── components/
+│   ├── Button.jsx       # Button component and its authored-props parser
+│   └── Teaser.jsx       # Teaser component and its authored-props parser
+├── components.jsx       # Registry mapping block names to components and parsers
 ├── server.jsx           # HTML document transformation and renderToString()
 ├── client.jsx           # hydrateRoot()/createRoot() island mounting
 ├── build.mjs            # Builds server and browser bundles with esbuild
@@ -173,9 +177,11 @@ The following example adds a `react-product-card` block with authored `title` an
 
 ### 1. Add the React component
 
-Edit `react/components.jsx` and add the component:
+Create `react/components/ProductCard.jsx`:
 
 ```jsx
+import { useState } from 'react';
+
 export function ProductCard({ title, description }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -200,9 +206,14 @@ Keep the initial render deterministic. The server and browser must produce ident
 
 ### 2. Register the component
 
-In the same file, add the AEM block name to `registry`:
+Edit `react/components.jsx`, import the component and parser with the exact filename casing and `.jsx` extension, then add the AEM block name to `registry`:
 
 ```jsx
+import {
+  ProductCard,
+  readProductCardProps,
+} from './components/ProductCard.jsx';
+
 export const registry = {
   'react-teaser': { Component: Teaser, readProps: readTeaserProps },
   'react-button': { Component: Button, readProps: readButtonProps },
@@ -217,10 +228,10 @@ The registry key must exactly match the block folder name, block CSS class, and 
 
 ### 3. Map authored rows to props
 
-Each registry entry owns its parser. Add a parser that maps the new block's authored row order to component props:
+Each registry entry owns its parser. In `react/components/ProductCard.jsx`, export a parser that maps the authored row order to component props:
 
 ```jsx
-const readProductCardProps = (block) => {
+export const readProductCardProps = (block) => {
   const rows = [...block.children];
   return {
     title: rows[0]?.textContent.trim() || 'Product',

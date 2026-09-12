@@ -15,7 +15,7 @@
 }
 
 .react-button button:focus-visible {
-  outline: 3px solid currentcolor;
+  outline: 3px solid var(--link-hover-color);
   outline-offset: 3px;
 }
 
